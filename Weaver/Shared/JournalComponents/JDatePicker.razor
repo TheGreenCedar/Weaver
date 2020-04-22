@@ -1,0 +1,4 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.DatePicker>;
+
+<MatDatePicker @bind-Value="@Component.MappedValue" EnableTime="@Component.EnableTime" EnableSeconds="@Component.EnableTime" />

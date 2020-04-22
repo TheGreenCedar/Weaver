@@ -1,0 +1,29 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.NumericField>;
+
+<MatNumericUpDownField @bind-Value="@Component.MappedValue"
+                       @bind-Label="@Component.Label"
+                       DecimalPlaces="@Component.DecimalPlaces"
+                       Step="@Component.Step"
+                       FieldType="@FieldType"
+                       />
+
+@code {
+    public MatNumericUpDownFieldType FieldType
+    {
+        get
+        {
+            switch (Component.FieldType)
+            {
+                case Data.Models.NumericType.Numeric:
+                    return MatNumericUpDownFieldType.Numeric;
+                case Data.Models.NumericType.Currency:
+                    return MatNumericUpDownFieldType.Currency;
+                case Data.Models.NumericType.Percent:
+                    return MatNumericUpDownFieldType.Percent;
+                default:
+                    throw new Exception("unhandled numeric type");
+            }
+        }
+    }
+}

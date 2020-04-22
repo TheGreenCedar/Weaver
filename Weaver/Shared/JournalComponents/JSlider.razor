@@ -1,0 +1,8 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.Slider>;
+
+<MatSlider @bind-Value="@Component.MappedValue"
+           Label="@Component.Label"
+           Step="@Component.Step"
+           ValueMin="@Component.Min"
+           ValueMax="@Component.Max" />

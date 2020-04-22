@@ -1,0 +1,11 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.RadioList>;
+
+<MatList>
+    @foreach (var btn in Component.Buttons)
+    {
+        <MatListItem>
+            <MatRadioButton @bind-Value="@btn.MappedValue" @bind-Label="@btn.Label" />
+        </MatListItem>
+    }
+</MatList>

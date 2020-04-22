@@ -12,8 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weaver</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="css/site.css" rel="stylesheet" />
+    <script defer type="text/javascript" src="_framework/blazor.server.js"></script>
+    <script defer type="text/javascript" src="_content/MatBlazor/dist/matBlazor.js"></script>
+    <environment include="Development">
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+        <link rel="stylesheet" href="_content/MatBlazor/dist/matBlazor.css" />
+        <link rel="stylesheet" href="css/open-iconic/font/css/open-iconic-bootstrap.min.css" />
+        <link rel="stylesheet" href="css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="_content/MatBlazor/dist/matBlazor.css" />
+        <link rel="stylesheet" href="css/site.min.css" />
+    </environment>
 </head>
 <body>
     <app>
@@ -31,6 +41,5 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

@@ -1,0 +1,36 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.JournalGrid>;
+
+<div class="mat-layout-grid-inner">
+    @{
+        int prevRow = 0;
+        int prevCol = 0;
+        int prevWidth = 0;
+    }
+    @foreach (var item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
+    {
+        if (item.Row > prevRow + 1)
+        {
+            @EmptyCell(MAX_WIDTH)
+            prevWidth = 0;
+        }
+        if (item.Row > prevRow && prevWidth != 0)
+        {
+            @EmptyCell(MAX_WIDTH - prevRow)
+            prevWidth = 0;
+        }
+    }
+</div>
+
+@code{
+    RenderFragment EmptyCell(int width)
+    {
+        RenderFragment cell = c =>
+        {
+            c.OpenElement(1, "div");
+            c.AddAttribute(1, "class", $"mat-layout-grid-cell mat-layout-grid-cell-span-{width}");
+            c.CloseElement();
+        };
+        return cell;
+    }
+}

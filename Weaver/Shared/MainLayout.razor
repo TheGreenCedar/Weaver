@@ -1,16 +1,28 @@
 ﻿@inherits LayoutComponentBase
+@using MatBlazor;
 
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
-    <div class="top-row px-4 auth">
-        <LoginDisplay />
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<MatThemeProvider Theme="@theme">
+    <div class="sidebar">
+        <NavMenu />
     </div>
 
-    <div class="content px-4">
-        @Body
+    <div class="main">
+        <div class="top-row px-4 auth">
+            <LoginDisplay />
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
-</div>
+</MatThemeProvider>
+
+@code
+{
+    MatTheme theme = new MatTheme()
+    {
+        Primary = MatThemeColors.Orange._500.Value,
+        Secondary = MatThemeColors.BlueGrey._500.Value
+    };
+}

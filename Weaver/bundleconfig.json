@@ -1,0 +1,10 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/bootstrap/bootstrap.min.css",
+      "wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "wwwroot/css/site.css"
+    ]
+  }
+]

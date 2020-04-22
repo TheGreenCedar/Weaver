@@ -1,0 +1,9 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.SelectField>;
+
+<MatSelect @bind-Value="@Component.Value" Label="@Component.Label">
+    @foreach (var item in Component.OptionsList)
+    {
+        <MatSelectItem Value="item">@item</MatSelectItem>
+    }
+</MatSelect>

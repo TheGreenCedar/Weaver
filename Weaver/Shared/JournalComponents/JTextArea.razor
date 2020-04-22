@@ -1,0 +1,15 @@
+﻿@using MatBlazor;
+@inherits Base.Draggable<Weaver.Data.Models.TextArea>;
+
+<MatTextField @bind-Value="@Component.Value"
+              @bind-Label="@Component.Label"
+              @bind-FullWidth="@Component.FullWidth"
+              InputStyle="@style"
+              TextArea="true" />
+
+@code {
+    private string style
+    {
+        get => $"{(!Component.FullWidth ? $"width:{Component.Width}px;" : "")}{(Component.FullHeight ? "height:100%;" : $"height:{Component.Height}px;")}";
+    }
+}

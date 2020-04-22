@@ -27,15 +27,13 @@ namespace Weaver
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("weaverdb")));
+                options.UseMySql(Configuration.GetConnectionString("weaverdb")));
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
-            services.AddSingleton<WeatherForecastService>();
             services.AddAzureClients(builder =>
             {
                 builder.AddBlobServiceClient(Configuration.GetConnectionString("weaverstore"));

@@ -6,15 +6,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.0.0" />
-    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.0.0-preview.5" />
-    <PackageReference Include="Azure.Storage.Queues" Version="12.0.0" />
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="Shared\JournalComponents\JNumericField.razor" />
+    <Content Remove="Shared\JournalComponents\JRadioButton.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="Shared\JournalComponents\JNumericField.razor" />
+    <None Include="Shared\JournalComponents\JRadioButton.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.4.1" />
+    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.3.0" />
+    <PackageReference Include="MatBlazor" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>

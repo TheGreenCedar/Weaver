@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Weaver.Data.Migrations
+namespace Weaver.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,11 +48,63 @@ namespace Weaver.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "JournalComponents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Label = table.Column<string>(nullable: false),
+                    Row = table.Column<int>(nullable: false),
+                    Col = table.Column<int>(nullable: false),
+                    ParentId = table.Column<int>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true),
+                    Multi = table.Column<bool>(nullable: true),
+                    Options = table.Column<string>(nullable: true),
+                    ValueComponentDateTime_Value = table.Column<string>(name: "ValueComponent<DateTime>_Value", nullable: true),
+                    ValueComponentbool_Value = table.Column<string>(name: "ValueComponent<bool>_Value", nullable: true),
+                    ParentListId = table.Column<int>(nullable: true),
+                    ValueComponentdouble_Value = table.Column<string>(name: "ValueComponent<double>_Value", nullable: true),
+                    DecimalPlaces = table.Column<short>(nullable: true),
+                    FieldType = table.Column<int>(nullable: true),
+                    Step = table.Column<double>(nullable: true),
+                    Width = table.Column<float>(nullable: true),
+                    Height = table.Column<float>(nullable: true),
+                    FullWidth = table.Column<bool>(nullable: true),
+                    FullHeight = table.Column<bool>(nullable: true),
+                    Slider_Step = table.Column<double>(nullable: true),
+                    Min = table.Column<double>(nullable: true),
+                    Max = table.Column<double>(nullable: true),
+                    ValueComponentstring_Value = table.Column<string>(name: "ValueComponent<string>_Value", nullable: true),
+                    IsImageViewer = table.Column<bool>(nullable: true),
+                    ResizeableComponentstring_Width = table.Column<float>(name: "ResizeableComponent<string>_Width", nullable: true),
+                    ResizeableComponentstring_Height = table.Column<float>(name: "ResizeableComponent<string>_Height", nullable: true),
+                    ResizeableComponentstring_FullWidth = table.Column<bool>(name: "ResizeableComponent<string>_FullWidth", nullable: true),
+                    ResizeableComponentstring_FullHeight = table.Column<bool>(name: "ResizeableComponent<string>_FullHeight", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JournalComponents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JournalComponents_JournalComponents_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "JournalComponents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JournalComponents_JournalComponents_ParentListId",
+                        column: x => x.ParentListId,
+                        principalTable: "JournalComponents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +125,7 @@ namespace Weaver.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +205,40 @@ namespace Weaver.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Templates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    RootComponentId = table.Column<int>(nullable: true),
+                    OwnerId = table.Column<string>(nullable: true),
+                    JournalTemplateId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Templates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Templates_Templates_JournalTemplateId",
+                        column: x => x.JournalTemplateId,
+                        principalTable: "Templates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Templates_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Templates_JournalComponents_RootComponentId",
+                        column: x => x.RootComponentId,
+                        principalTable: "JournalComponents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -162,8 +248,7 @@ namespace Weaver.Data.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -189,8 +274,32 @@ namespace Weaver.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JournalComponents_ParentId",
+                table: "JournalComponents",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JournalComponents_ParentListId",
+                table: "JournalComponents",
+                column: "ParentListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Templates_JournalTemplateId",
+                table: "Templates",
+                column: "JournalTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Templates_OwnerId",
+                table: "Templates",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Templates_RootComponentId",
+                table: "Templates",
+                column: "RootComponentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +320,16 @@ namespace Weaver.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Templates");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "JournalComponents");
         }
     }
 }
