@@ -1,36 +1,101 @@
-﻿@using MatBlazor;
-@inherits Base.Draggable<Weaver.Data.Models.JournalGrid>;
+﻿@using Weaver.Data.Models;
+@using Weaver.Shared.JournalComponents.Base;
+@inherits Base.Draggable<JournalGrid>;
 
 <div class="mat-layout-grid-inner">
     @{
-        int prevRow = 0;
-        int prevCol = 0;
-        int prevWidth = 0;
+        int prevRow = 1;
+        int prevCol = 1;
+        int maxCols = Cols;
+        int colWidth = MAX_WIDTH / maxCols;
     }
     @foreach (var item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
     {
-        if (item.Row > prevRow + 1)
+        foreach (var cell in @FillWithEmpty(prevRow, prevCol, item.Row, item.Col, maxCols, MAX_WIDTH))
         {
-            @EmptyCell(MAX_WIDTH)
-            prevWidth = 0;
+            @cell
         }
-        if (item.Row > prevRow && prevWidth != 0)
-        {
-            @EmptyCell(MAX_WIDTH - prevRow)
-            prevWidth = 0;
-        }
+        <DragWrap id="@IdFromRowCol(item.Row, item.Col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+            @switch (item)
+            {
+                case JournalGrid jGrid:
+                    <JGrid @bind-Component="jGrid" />
+                    break;
+                case CheckBox jCheckBox:
+                    <JCheckBox @bind-Component="jCheckBox" />
+                    break;
+                case RadioList jRadioList:
+                    <JRadioList @bind-Component="jRadioList" />
+                    break;
+                case Toggle jToggle:
+                    <JToggle @bind-Component="jToggle" />
+                    break;
+                case TextField jTextField:
+                    <JTextField @bind-Component="jTextField" />
+                    break;
+                case TextEditor jTextEditor:
+                    <JTextEditor @bind-Component="jTextEditor" />
+                    break;
+                case TextArea jTextArea:
+                    <JTextArea @bind-Component="jTextArea" />
+                    break;
+                case DatePicker jDatePicker:
+                    <JDatePicker @bind-Component="jDatePicker" />
+                    break;
+                case FileUploadView jFileUploadView:
+                    <JFileUploadView @bind-Component="jFileUploadView" />
+                    break;
+                case NumericField jNumericField:
+                    <JNumericField @bind-Component="jNumericField" />
+                    break;
+                case SelectField jSelectField:
+                    <JSelectField @bind-Component="jSelectField" />
+                    break;
+                case Slider jSlider:
+                    <JSlider @bind-Component="jSlider" />
+                    break;
+            }
+        </DragWrap>
+
+        prevRow = item.Row;
+        prevCol = item.Col;
     }
 </div>
 
 @code{
-    RenderFragment EmptyCell(int width)
+    private string IdFromRowCol(int row, int col) => $"cell{row}_{col}";
+
+    private RenderFragment EmptyCell(int width, int row, int col)
     {
         RenderFragment cell = c =>
         {
-            c.OpenElement(1, "div");
-            c.AddAttribute(1, "class", $"mat-layout-grid-cell mat-layout-grid-cell-span-{width}");
+            c.OpenElement(0, "div");
+            c.AddAttribute(1, "id", IdFromRowCol(row, col));
+            c.AddAttribute(2, "class", $"mat-layout-grid-cell mat-layout-grid-cell-span-{width}");
             c.CloseElement();
         };
         return cell;
+    }
+
+    private IEnumerable<RenderFragment> FillWithEmpty(int rowStart, int colStart, int rowEnd, int colEnd, int maxCols, int maxWidth)
+    {
+        int colWidth = maxWidth / maxCols;
+        int rowNum = rowEnd - rowStart;
+        int cellNum = rowNum * maxCols - (colStart - 1) + (colEnd - 1);
+        (int curRow, int curCol) = (rowStart, colStart);
+
+        for (int i = 0; i < cellNum; ++i)
+        {
+            yield return EmptyCell(colWidth, curRow, curCol);
+            if (curCol + 1 > maxCols)
+            {
+                ++curRow;
+                curCol = 0;
+            }
+            else
+            {
+                ++curCol;
+            }
+        }
     }
 }
