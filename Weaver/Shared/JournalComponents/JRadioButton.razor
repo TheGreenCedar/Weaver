@@ -1,4 +1,12 @@
 ﻿@using MatBlazor
 @inherits Base.Draggable<Weaver.Data.Models.RadioButton>;
 
-<MatRadioButton @bind-Value="@Component.MappedValue" @bind-Label="@Component.Label" />
+<MatRadioButton Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
+
+@code {
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Component.MappedValue = (bool)e.Value;
+        return ComponentChanged.InvokeAsync(Component);
+    }
+}

@@ -5,7 +5,15 @@
     @foreach (var btn in Component.Buttons)
     {
         <MatListItem>
-            <MatRadioButton @bind-Value="@btn.MappedValue" @bind-Label="@btn.Label" />
+            <JRadioButton Component="@btn" @onchange="e => BtnChanged(e, btn)" />
         </MatListItem>
     }
 </MatList>
+
+@code {
+    private Task BtnChanged(ChangeEventArgs e, Weaver.Data.Models.RadioButton btn)
+    {
+        btn.MappedValue = (bool)e.Value;
+        return ComponentChanged.InvokeAsync(Component);
+    }
+}

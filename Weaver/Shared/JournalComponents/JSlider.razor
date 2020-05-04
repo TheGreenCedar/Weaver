@@ -1,8 +1,18 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.Slider>;
 
-<MatSlider @bind-Value="@Component.MappedValue"
+<MatSlider Value="@Component.MappedValue"
            Label="@Component.Label"
            Step="@Component.Step"
            ValueMin="@Component.Min"
-           ValueMax="@Component.Max" />
+           ValueMax="@Component.Max"
+           @onchange="OnValueChanged"/>
+
+
+@code {
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Component.MappedValue = (double)e.Value;
+        return ComponentChanged.InvokeAsync(Component);
+    }
+}

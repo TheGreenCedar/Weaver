@@ -1,4 +1,12 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.CheckBox>;
 
-<MatCheckbox @bind-Value="@Component.MappedValue" Label="@Component.Label" />
+<MatCheckbox Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
+
+@code {
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Component.MappedValue = (bool)e.Value;
+        return ComponentChanged.InvokeAsync(Component);
+    }
+}

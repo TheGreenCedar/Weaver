@@ -1,4 +1,12 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.Toggle>;
 
-<MatSlideToggle @bind-Value="@Component.MappedValue" @bind-Label="@Component.Label" />
+<MatSlideToggle Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
+
+@code {
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        Component.MappedValue = (bool)e.Value;
+        return ComponentChanged.InvokeAsync(Component);
+    }
+}
