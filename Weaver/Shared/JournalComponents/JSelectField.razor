@@ -1,7 +1,7 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.SelectField>;
 
-<MatSelect @bind-Value="@Component.Value" Label="@Component.Label" @onchange="OnValueChanged">
+<MatSelect Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged">
     @foreach (var item in Component.OptionsList)
     {
         <MatSelectItem Value="item">@item</MatSelectItem>
@@ -12,7 +12,7 @@
 @code {
     private Task OnValueChanged(ChangeEventArgs e)
     {
-        Component.Value = (string)e.Value;
+        Component.MappedValue = (string)e.Value;
         return ComponentChanged.InvokeAsync(Component);
     }
 }S

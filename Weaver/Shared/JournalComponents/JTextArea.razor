@@ -1,17 +1,17 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.TextArea>;
 
-<MatTextField Value="@Component.Value"
+<MatTextField Value="@Component.MappedValue"
               Label="@Component.Label"
               FullWidth="@Component.FullWidth"
               InputStyle="@style"
               TextArea="true"
-              @onchange="OnValueChanged"/>
+              @oninput="OnValueChanged"/>
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)
     {
-        Component.Value = (string)e.Value;
+        Component.MappedValue = (string)e.Value;
         return ComponentChanged.InvokeAsync(Component);
     }
 

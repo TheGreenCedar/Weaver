@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
+
 #nullable enable
 namespace Weaver.Data.Models
 {
@@ -14,16 +15,36 @@ namespace Weaver.Data.Models
         public string Label { get; set; } = "";
         public int Row { get; set; }
         public int Col { get; set; }
+        [JsonIgnore]
         public JournalGrid? Parent { get; set; }
     }
     public abstract class ValueComponent<T> : JournalComponent
     {
-        public string Value { get; set; } = "";
-        [NotMapped]
+        public string Value { get; set; } = String.Empty;
+
+        [NotMapped, JsonIgnore]
+        protected static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+            TypeNameHandling = TypeNameHandling.None,
+            MaxDepth = 15,
+        };
+
+        [NotMapped, JsonIgnore]
         public virtual T MappedValue
         {
-            get => JsonSerializer.Deserialize<T>(Value);
-            set { Value = JsonSerializer.Serialize(value); }
+            get => typeof(T) == typeof(string)
+                        ? (T)(object)Value
+                        : JsonConvert.DeserializeObject<T>(Value, SerializerSettings);
+            set
+            {
+                Value = value switch
+                {
+                    string s => s,
+                    _ => JsonConvert.SerializeObject(value, SerializerSettings) ?? String.Empty
+                };
+            }
         }
     }
     public abstract class ResizeableComponent<T> : ValueComponent<T>
@@ -41,7 +62,7 @@ namespace Weaver.Data.Models
     public class CheckBox : ValueComponent<bool>
     {
     }
-    public class RadioList: JournalComponent
+    public class RadioList : JournalComponent
     {
         public virtual List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
     }
@@ -83,15 +104,18 @@ namespace Weaver.Data.Models
         public NumericType FieldType { get; set; } = NumericType.Numeric;
         public double Step { get; set; } = 1;
     }
-    public class SelectField : ValueComponent<List<string>>
+    public class SelectField : ValueComponent<string>
     {
         public bool Multi { get; set; } = false;
-        public string Options { get; set; } = "";
-        [NotMapped]
+        public string Options { get; set; } = String.Empty;
+        [NotMapped, JsonIgnore]
         public virtual List<string> OptionsList
         {
-            get => JsonSerializer.Deserialize<List<string>>(this.Options);
-            set { this.Options = JsonSerializer.Serialize(value); }
+            get => JsonConvert.DeserializeObject<List<string>>(this.Options, SerializerSettings) ?? new List<string>();
+            set
+            {
+                this.Options = JsonConvert.SerializeObject(value, SerializerSettings);
+            }
         }
     }
     public class Slider : ResizeableComponent<double>

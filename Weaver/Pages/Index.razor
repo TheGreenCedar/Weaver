@@ -1,7 +1,50 @@
 ﻿@page "/"
+@using  JC = Weaver.Data.Models;
+@using Newtonsoft.Json;
+@using Weaver.Shared.JournalComponents;
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+<p>
+    The strings are: @JsonConvert.SerializeObject(JG)
+</p>
+<div class="mat-layout-grid">
+    <JGrid Component="JG" ComponentChanged="myhandle" />
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    Weaver.Data.Models.JournalGrid JG;
+    string strings;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var root = new JC.JournalGrid
+        {
+            Label = "Root",
+            Row   = 1,
+            Col   = 1,
+        };
+        root.Children.Add(new JC.TextField
+        {
+            Label  = "Title:",
+            Row    = 1,
+            Col    = 1,
+            Parent = root
+        });
+        root.Children.Add(new JC.TextArea
+        {
+            Label  = "Content:",
+            Row    = 2,
+            Col    = 1,
+            Width  = 6,
+            Height = 3,
+            Parent = root
+        });
+        JG = root;
+    }
+    private void myhandle(JC.JournalGrid e)
+    {
+        JG.Children = e.Children;
+    }
+}

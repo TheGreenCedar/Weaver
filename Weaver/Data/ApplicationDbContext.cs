@@ -18,7 +18,6 @@ namespace Weaver.Data
         protected DbSet<ValueComponent<string>> StringValueComponents { get; set; }
         protected DbSet<ValueComponent<DateTime>> DateTimeValueComponents { get; set; }
         protected DbSet<ValueComponent<double>> DoubleValueComponents { get; set; }
-        protected DbSet<ValueComponent<List<string>>> StringListValueComponents { get; set; }
         protected DbSet<ResizeableComponent<string>> StringResizeableComponents { get; set; }
         protected DbSet<ResizeableComponent<double>> DoubleResizeableComponents { get; set; }
         protected DbSet<JournalGrid> JournalGrids { get; set; }

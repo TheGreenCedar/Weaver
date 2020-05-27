@@ -1,42 +1,57 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-Weaver-B8D8E352-5395-4B79-B9DA-C926B011924B</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<RazorLangVersion>3.0</RazorLangVersion>
+		<UserSecretsId>aspnet-Weaver-B8D8E352-5395-4B79-B9DA-C926B011924B</UserSecretsId>
+		<Platforms>AnyCPU;x64</Platforms>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="bundleconfig.json" />
-    <Content Remove="Shared\JournalComponents\JNumericField.razor" />
-    <Content Remove="Shared\JournalComponents\JRadioButton.razor" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="Migrations\20200527012201_idk.cs" />
+	  <Compile Remove="Migrations\20200527012201_idk.Designer.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+		<Content Remove="Shared\JournalComponents\JNumericField.razor" />
+		<Content Remove="Shared\JournalComponents\JRadioButton.razor" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="bundleconfig.json" />
-    <None Include="Shared\JournalComponents\JNumericField.razor" />
-    <None Include="Shared\JournalComponents\JRadioButton.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.4.1" />
-    <PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.0" />
-    <PackageReference Include="Azure.Storage.Queues" Version="12.3.0" />
-    <PackageReference Include="MatBlazor" Version="2.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.0.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="bundleconfig.json" />
+		<None Include="Shared\JournalComponents\JNumericField.razor" />
+		<None Include="Shared\JournalComponents\JRadioButton.razor" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.4.2" />
+		<PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.1" />
+		<PackageReference Include="Azure.Storage.Queues" Version="12.3.0" />
+		<PackageReference Include="MatBlazor" Version="2.6.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Azure" Version="1.0.0" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<WCFMetadata Include="Connected Services" />
+	</ItemGroup>
 
 </Project>

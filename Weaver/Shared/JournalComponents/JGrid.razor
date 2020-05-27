@@ -1,6 +1,8 @@
 ﻿@using Weaver.Data.Models;
 @using Weaver.Shared.JournalComponents.Base;
 @inherits Base.Draggable<JournalGrid>;
+@using Microsoft.Extensions.Logging;
+@inject ILogger<JGrid> logger;
 
 <div class="mat-layout-grid-inner">
     @{
@@ -11,49 +13,75 @@
     }
     @foreach (var item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
     {
-        foreach (var cell in @FillWithEmpty(prevRow, prevCol, item.Row, item.Col, maxCols, MAX_WIDTH))
+        foreach (var cell in FillWithEmpty(prevRow, prevCol, item.Row, item.Col, maxCols, MAX_WIDTH))
         {
             @cell
         }
-        <DragWrap id="@IdFromRowCol(item.Row, item.Col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+        <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
             @switch (item)
             {
                 case JournalGrid jGrid:
-                    <JGrid @bind-Component="jGrid" />
-                    break;
+                    {
+                        <JGrid Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />
+                        break;
+                    }
                 case CheckBox jCheckBox:
-                    <JCheckBox @bind-Component="jCheckBox" />
-                    break;
+                    {
+                        {
+                            <JCheckBox Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />
+                            break;
+                        }
+                    }
                 case RadioList jRadioList:
-                    <JRadioList @bind-Component="jRadioList" />
-                    break;
+                    {
+                        <JRadioList Component="@jRadioList" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />
+                        break;
+                    }
                 case Toggle jToggle:
-                    <JToggle @bind-Component="jToggle" />
-                    break;
+                    {
+                        <JToggle Component="@jToggle" ComponentChanged="v => onchange(v.MappedValue, ref jToggle)" />
+                        break;
+                    }
                 case TextField jTextField:
-                    <JTextField @bind-Component="jTextField" />
-                    break;
+                    {
+                        <JTextField Component="@jTextField" ComponentChanged="v => onchange(v.MappedValue, ref jTextField)" />
+                        break;
+                    }
                 case TextEditor jTextEditor:
-                    <JTextEditor @bind-Component="jTextEditor" />
-                    break;
+                    {
+                        <JTextEditor Component="@jTextEditor" ComponentChanged="v => onchange(v.MappedValue, ref jTextEditor)" />
+                        break;
+                    }
                 case TextArea jTextArea:
-                    <JTextArea @bind-Component="jTextArea" />
-                    break;
+                    {
+                        <JTextArea Component="@jTextArea" ComponentChanged="v => onchange(v.MappedValue, ref jTextArea)" />
+                        break;
+                    }
                 case DatePicker jDatePicker:
-                    <JDatePicker @bind-Component="jDatePicker" />
-                    break;
+                    {
+                        <JDatePicker Component="@jDatePicker" ComponentChanged="v => onchange(v.MappedValue, ref jDatePicker)" />
+                        break;
+                    }
                 case FileUploadView jFileUploadView:
-                    <JFileUploadView @bind-Component="jFileUploadView" />
-                    break;
+                    {
+                        <JFileUploadView Component="@jFileUploadView" ComponentChanged="v => onchange(v.MappedValue, ref jFileUploadView)" />
+                        break;
+                    }
                 case NumericField jNumericField:
-                    <JNumericField @bind-Component="jNumericField" />
-                    break;
+                    {
+                        <JNumericField Component="@jNumericField" ComponentChanged="v => onchange(v.MappedValue, ref jNumericField)" />
+                        break;
+                    }
                 case SelectField jSelectField:
-                    <JSelectField @bind-Component="jSelectField" />
-                    break;
+                    {
+                        <JSelectField Component="@jSelectField" ComponentChanged="v => onchange(v.MappedValue, ref jSelectField)" />
+                        break;
+                    }
                 case Slider jSlider:
-                    <JSlider @bind-Component="jSlider" />
-                    break;
+                    {
+                        <JSlider Component="@jSlider" ComponentChanged="v => onchange(v.MappedValue, ref jSlider)" />
+                        break;
+                    }
             }
         </DragWrap>
 
@@ -79,23 +107,30 @@
 
     private IEnumerable<RenderFragment> FillWithEmpty(int rowStart, int colStart, int rowEnd, int colEnd, int maxCols, int maxWidth)
     {
-        int colWidth = maxWidth / maxCols;
-        int rowNum = rowEnd - rowStart;
-        int cellNum = rowNum * maxCols - (colStart - 1) + (colEnd - 1);
+        int colWidth             = maxWidth / maxCols;
+        int rowNum               = rowEnd - rowStart;
+        int cellNum              = rowNum * maxCols - (colStart - 1) + (colEnd - 1);
         (int curRow, int curCol) = (rowStart, colStart);
 
         for (int i = 0; i < cellNum; ++i)
         {
             yield return EmptyCell(colWidth, curRow, curCol);
-            if (curCol + 1 > maxCols)
+            if (curCol > maxCols)
             {
                 ++curRow;
-                curCol = 0;
+                curCol = 1;
             }
             else
             {
                 ++curCol;
             }
         }
+    }
+
+    private Task onchange<U, T>(U val, ref T item)
+        where T : ValueComponent<U>
+    {
+        item.MappedValue = val;
+        return ComponentChanged.InvokeAsync(Component);
     }
 }
