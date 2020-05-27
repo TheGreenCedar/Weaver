@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable enable
 namespace Weaver.Data.Models
 {
     #region abstracts
@@ -68,9 +67,7 @@ namespace Weaver.Data.Models
     }
     public class RadioButton : ValueComponent<bool>
     {
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public RadioList ParentList { get; set; }
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     }
     public class Toggle : ValueComponent<bool>
     {

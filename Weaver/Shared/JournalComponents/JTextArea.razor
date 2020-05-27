@@ -3,10 +3,11 @@
 
 <MatTextField Value="@Component.MappedValue"
               Label="@Component.Label"
-              FullWidth="@Component.FullWidth"
+              FullWidth="@true"
               InputStyle="@style"
               TextArea="true"
-              @oninput="OnValueChanged"/>
+              @oninput="OnValueChanged"
+              />
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)
@@ -17,6 +18,6 @@
 
     private string style
     {
-        get => $"{(!Component.FullWidth ? $"width:{Component.Width}px;" : "")}{(Component.FullHeight ? "height:100%;" : $"height:{Component.Height}px;")}";
+        get => $"{(Component.FullWidth ? "" : $"width:{Component.Width}px;")}{(Component.FullHeight ? "height:75vh;" : $"height:{Component.Height}px;")}";
     }
 }

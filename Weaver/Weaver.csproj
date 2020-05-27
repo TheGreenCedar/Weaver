@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<RazorLangVersion>3.0</RazorLangVersion>
 		<UserSecretsId>aspnet-Weaver-B8D8E352-5395-4B79-B9DA-C926B011924B</UserSecretsId>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,6 +51,10 @@
 
 	<ItemGroup>
 		<WCFMetadata Include="Connected Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Logic\" />
 	</ItemGroup>
 
 </Project>

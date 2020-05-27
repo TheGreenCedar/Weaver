@@ -9,33 +9,35 @@ namespace Weaver.Shared.JournalComponents.Base
         [Parameter] public T Component { get; set; }
         [Parameter] public EventCallback<T> ComponentChanged { get; set; }
 
+        [Parameter] public bool Edit { get; set; } = false;
+
         // when a draggable element enters this drop target
-        public void OnDragEnter(DragEventArgs args)
+        public virtual void OnDragEnter(DragEventArgs args)
         {
 
         }
         // when a draggable element leaves this drop target
-        public void OnDragLeave(DragEventArgs args)
+        public virtual void OnDragLeave(DragEventArgs args)
         {
 
         }
         // while a draggable element is being dragged over this drop target
-        public void OnDragOver(DragEventArgs args)
+        public virtual void OnDragOver(DragEventArgs args)
         {
 
         }
         // when drag starts
-        public void OnDragStart(DragEventArgs args)
+        public virtual void OnDragStart(DragEventArgs args)
         {
 
         }
         // when drag stops
-        public void OnDragEnd(DragEventArgs args)
+        public virtual void OnDragEnd(DragEventArgs args)
         {
 
         }
         // while dragging
-        public void OnDrag(DragEventArgs args)
+        public virtual void OnDrag(DragEventArgs args)
         {
 
         }
