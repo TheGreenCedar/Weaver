@@ -5,6 +5,15 @@
 		<UserSecretsId>aspnet-Weaver-B8D8E352-5395-4B79-B9DA-C926B011924B</UserSecretsId>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	  <DefineConstants>DEBUG</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>DEBUG</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,8 +23,6 @@
 
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
-		<Content Remove="Shared\JournalComponents\JNumericField.razor" />
-		<Content Remove="Shared\JournalComponents\JRadioButton.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,19 +31,19 @@
 
 	<ItemGroup>
 		<None Include="bundleconfig.json" />
-		<None Include="Shared\JournalComponents\JNumericField.razor" />
-		<None Include="Shared\JournalComponents\JRadioButton.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Storage.Blobs" Version="12.4.2" />
 		<PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.1" />
 		<PackageReference Include="Azure.Storage.Queues" Version="12.3.0" />
+		<PackageReference Include="BlazorCss" Version="1.0.0" />
+		<PackageReference Include="BlazorStyled" Version="2.2.0" />
 		<PackageReference Include="MatBlazor" Version="2.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
-		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -55,6 +62,21 @@
 
 	<ItemGroup>
 	  <Folder Include="Logic\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

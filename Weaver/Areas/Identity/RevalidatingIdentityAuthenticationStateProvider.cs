@@ -1,15 +1,14 @@
-using System;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using System;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
+#nullable disable
 namespace Weaver.Areas.Identity
 {
     public class RevalidatingIdentityAuthenticationStateProvider<TUser>
@@ -25,7 +24,8 @@ namespace Weaver.Areas.Identity
             : base(loggerFactory)
         {
             _scopeFactory = scopeFactory;
-            _options = optionsAccessor.Value;
+            if (optionsAccessor != null)
+                _options = optionsAccessor.Value;
         }
 
         protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
@@ -38,7 +38,9 @@ namespace Weaver.Areas.Identity
             try
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<TUser>>();
+#pragma warning disable CA1062 // Validate arguments of public methods
                 return await ValidateSecurityStampAsync(userManager, authenticationState.User);
+#pragma warning restore CA1062 // Validate arguments of public methods
             }
             finally
             {

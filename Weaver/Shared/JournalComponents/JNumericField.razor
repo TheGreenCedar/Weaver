@@ -1,12 +1,12 @@
 ﻿@using MatBlazor;
 @using Data.Models;
 @inherits Base.Draggable<Weaver.Data.Models.NumericField>;
-<MatNumericUpDownField Value        ="@Component.MappedValue"
-                       Label        ="@Component.Label"
+<MatNumericUpDownField Value="@Component.MappedValue"
+                       Label="@Component.Label"
                        DecimalPlaces="@Component.DecimalPlaces"
-                       Step         ="@Component.Step"
-                       FieldType    ="@FieldType"
-                       @oninput     ="OnValueChanged" />
+                       Step="@Component.Step"
+                       FieldType="@FieldType"
+                       @oninput="OnValueChanged" />
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)
@@ -19,10 +19,10 @@
     {
         get => Component.FieldType switch
         {
-            NumericType.Numeric  => MatNumericUpDownFieldType.Numeric,
+            NumericType.Numeric => MatNumericUpDownFieldType.Numeric,
             NumericType.Currency => MatNumericUpDownFieldType.Currency,
-            NumericType.Percent  => MatNumericUpDownFieldType.Percent,
-            _                    => throw new Exception("unhandled numeric type")
+            NumericType.Percent => MatNumericUpDownFieldType.Percent,
+            _ => throw new Exception("unhandled numeric type")
         };
     }
 }

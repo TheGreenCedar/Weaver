@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using Weaver.Data.Models;
-
+#nullable disable
 namespace Weaver.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole, string>
@@ -22,7 +20,6 @@ namespace Weaver.Data
         protected DbSet<ResizeableComponent<double>> DoubleResizeableComponents { get; set; }
         protected DbSet<JournalGrid> JournalGrids { get; set; }
         protected DbSet<CheckBox> CheckBoxes { get; set; }
-        protected DbSet<RadioButton> RadioButtons { get; set; }
         protected DbSet<Toggle> Toggles { get; set; }
         protected DbSet<TextField> TextFields { get; set; }
         protected DbSet<TextArea> TextAreas { get; set; }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 using Weaver.Data.Models;
 
 namespace Weaver.Shared.JournalComponents.Base
@@ -14,7 +15,6 @@ namespace Weaver.Shared.JournalComponents.Base
         // when a draggable element enters this drop target
         public virtual void OnDragEnter(DragEventArgs args)
         {
-
         }
         // when a draggable element leaves this drop target
         public virtual void OnDragLeave(DragEventArgs args)

@@ -91,38 +91,6 @@
 </div>
 
 @code{
-    private string IdFromRowCol(int row, int col) => $"cell{row}_{col}";
-
-    private RenderFragment EmptyCell(int width, int row, int col)
-    {
-        RenderFragment cell = c =>
-        {
-            c.OpenElement(0, "div");
-            c.AddAttribute(1, "id", IdFromRowCol(row, col));
-            c.AddAttribute(2, "class", $"mat-layout-grid-cell mat-layout-grid-cell-span-{width}");
-            c.CloseElement();
-        };
-        return cell;
-    }
-
-    private IEnumerable<RenderFragment> FillWithEmpty(int rowStart, int colStart, int rowEnd, int colEnd, int maxCols, int maxWidth)
-    {
-        int colWidth             = maxWidth / maxCols;
-        int rowNum               = rowEnd - rowStart - 1;
-        int cellNum              = rowNum * maxCols - colStart + colEnd + 1;
-        (int curRow, int curCol) = GetNextPoint(rowStart, colStart, maxCols);
-
-        for (int i = 0; i < cellNum; ++i)
-        {
-            yield return EmptyCell(colWidth, curRow, curCol);
-            (curRow, curCol) = GetNextPoint(curRow, curCol, maxCols);
-        }
-    }
-
-    private Task onchange<U, T>(U val, ref T item)
-        where T : ValueComponent<U>
-    {
-        item.MappedValue = val;
-        return ComponentChanged.InvokeAsync(Component);
-    }
+    public static RenderFragment EmptyCell(int width, int row, int col)
+        => @<DragWrap id="@IdFromRowCol(row, col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
 }

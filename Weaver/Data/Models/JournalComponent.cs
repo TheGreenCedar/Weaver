@@ -4,8 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+#pragma warning disable CA2227 // Collection properties should be read only
 namespace Weaver.Data.Models
 {
+    public enum CLayout {
+        Horizontal = 0,
+        Vertical
+    }
+
     #region abstracts
     public abstract class JournalComponent
     {
@@ -48,10 +54,7 @@ namespace Weaver.Data.Models
     }
     public abstract class ResizeableComponent<T> : ValueComponent<T>
     {
-        public float Width { get; set; }
         public float Height { get; set; }
-        public bool FullWidth { get; set; } = true;
-        public bool FullHeight { get; set; }
     }
     #endregion abstracts
     public class JournalGrid : JournalComponent
@@ -61,13 +64,10 @@ namespace Weaver.Data.Models
     public class CheckBox : ValueComponent<bool>
     {
     }
-    public class RadioList : JournalComponent
+    public class RadioList : ValueComponent<string>
     {
-        public virtual List<RadioButton> Buttons { get; set; } = new List<RadioButton>();
-    }
-    public class RadioButton : ValueComponent<bool>
-    {
-        public RadioList ParentList { get; set; }
+        public virtual List<string> Buttons { get; set; } = new List<string>();
+        public CLayout Layout { get; set; } = CLayout.Horizontal;
     }
     public class Toggle : ValueComponent<bool>
     {
@@ -115,10 +115,11 @@ namespace Weaver.Data.Models
             }
         }
     }
-    public class Slider : ResizeableComponent<double>
+    public class Slider : ValueComponent<double>
     {
         public double Step { get; set; } = 1;
         public double Min { get; set; } = 0;
         public double Max { get; set; } = 100;
     }
 }
+#pragma warning restore CA2227 // Collection properties should be read only

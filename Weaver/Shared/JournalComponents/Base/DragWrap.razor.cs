@@ -7,7 +7,7 @@ namespace Weaver.Shared.JournalComponents.Base
     public partial class DragWrap
     {
         [Parameter] public Draggable<JournalComponent>? Child { get; set; }
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
         // when a draggable element enters this drop target
         public void OnDragEnter(DragEventArgs args)

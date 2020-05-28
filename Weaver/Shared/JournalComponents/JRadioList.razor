@@ -1,11 +1,30 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.RadioList>;
 
-<MatList>
-    @foreach (var btn in Component.Buttons)
+<MatH5>@Component.Label</MatH5>
+@if (Component.Layout == Weaver.Data.Models.CLayout.Horizontal)
+{
+    <MatRadioGroup TValue="string" Value="Component.MappedValue" ValueChanged="OnValueChanged" Items="Component.Buttons">
+        <ItemTemplate>
+            <MatRadioButton TValue="string" Value="@context">@context</MatRadioButton>
+        </ItemTemplate>
+    </MatRadioGroup>
+}
+else
+{
+    <MatRadioGroup TValue="string" Value="Component.MappedValue" ValueChanged="OnValueChanged" Items="Component.Buttons">
+        <ItemTemplate>
+            <div>
+                <MatRadioButton TValue="string" Value="@context">@context</MatRadioButton>
+            </div>
+        </ItemTemplate>
+    </MatRadioGroup>
+}
+
+@code {
+    private Task OnValueChanged(string e)
     {
-        <MatListItem>
-            <JRadioButton Component="@btn" ComponentChanged="_ => ComponentChanged.InvokeAsync(Component)" />
-        </MatListItem>
+        Component.MappedValue = e;
+        return ComponentChanged.InvokeAsync(Component);
     }
-</MatList>
+}

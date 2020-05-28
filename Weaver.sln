@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeaverTests", "WeaverTests\WeaverTests.csproj", "{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,14 @@ Global
 		{5F71156B-AABD-4A98-B248-43B5D2AFF97B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F71156B-AABD-4A98-B248-43B5D2AFF97B}.Release|x64.ActiveCfg = Release|x64
 		{5F71156B-AABD-4A98-B248-43B5D2AFF97B}.Release|x64.Build.0 = Release|x64
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Debug|x64.Build.0 = Debug|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Release|x64.ActiveCfg = Release|Any CPU
+		{59D8BFDF-1B43-4BA2-ABF3-24F077E5962B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
