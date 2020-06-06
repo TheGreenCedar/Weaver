@@ -8,3 +8,6 @@ dotnet_diagnostic.CA2007.severity = silent
 
 # CS8618: Non-nullable field is uninitialized. Consider declaring as nullable.
 dotnet_diagnostic.CS8618.severity = silent
+
+dotnet_diagnostic.CS8602.severity = silent
+dotnet_diagnostic.CA2227.severity = silent

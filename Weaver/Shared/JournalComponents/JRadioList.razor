@@ -6,7 +6,7 @@
 {
     <MatRadioGroup TValue="string" Value="Component.MappedValue" ValueChanged="OnValueChanged" Items="Component.Buttons">
         <ItemTemplate>
-            <MatRadioButton TValue="string" Value="@context">@context</MatRadioButton>
+            <MatRadioButton Disabled="!Edit" TValue="string" Value="@context">@context</MatRadioButton>
         </ItemTemplate>
     </MatRadioGroup>
 }
@@ -15,7 +15,7 @@ else
     <MatRadioGroup TValue="string" Value="Component.MappedValue" ValueChanged="OnValueChanged" Items="Component.Buttons">
         <ItemTemplate>
             <div>
-                <MatRadioButton TValue="string" Value="@context">@context</MatRadioButton>
+                <MatRadioButton Disabled="!Edit" TValue="string" Value="@context">@context</MatRadioButton>
             </div>
         </ItemTemplate>
     </MatRadioGroup>

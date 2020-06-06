@@ -1,12 +1,12 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.Slider>;
 
-<MatSlider Value="@Component.MappedValue"
+<MatSlider Disabled="!Edit" Value="@Component.MappedValue"
            Label="@Component.Label"
            Step="@Component.Step"
            ValueMin="@Component.Min"
            ValueMax="@Component.Max"
-           @onchange="OnValueChanged"/>
+           @onchange="OnValueChanged" />
 
 
 @code {

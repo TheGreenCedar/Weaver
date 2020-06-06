@@ -9,6 +9,7 @@ namespace Weaver.Shared.JournalComponents
     public partial class JGrid
     {
         const int MAX_WIDTH = 12;
+        [Parameter] public bool Building { get; set; } = false;
         public int Rows { get => Component.Children.Max(c => c.Row); }
         public int Cols { get => Component.Children.Max(c => c.Col); }
 
@@ -28,7 +29,7 @@ namespace Weaver.Shared.JournalComponents
         {
             int colWidth = maxWidth / maxCols;
             int rowNum = rowEnd - rowStart - 1;
-            int cellNum = rowNum * maxCols + (maxCols - colStart) + colEnd + -1;
+            int cellNum = rowNum * maxCols + (maxCols - colStart) + colEnd - 1;
             (int curRow, int curCol) = GetNextPoint(rowStart, colStart, maxCols);
 
             for (int i = 0; i < cellNum; ++i)

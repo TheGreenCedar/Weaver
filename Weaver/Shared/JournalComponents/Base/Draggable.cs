@@ -9,7 +9,6 @@ namespace Weaver.Shared.JournalComponents.Base
     {
         [Parameter] public T Component { get; set; }
         [Parameter] public EventCallback<T> ComponentChanged { get; set; }
-
         [Parameter] public bool Edit { get; set; } = false;
 
         // when a draggable element enters this drop target

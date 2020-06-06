@@ -1,7 +1,7 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.TextArea>;
 
-<MatTextField Value="@Component.MappedValue"
+<MatTextField ReadOnly="!Edit" Value="@Component.MappedValue"
               Label="@Component.Label"
               FullWidth="@true"
               InputStyle="@style"

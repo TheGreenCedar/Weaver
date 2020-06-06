@@ -1,4 +1,5 @@
-﻿@using Weaver.Data.Models;
+@using Newtonsoft.Json;
+@using Weaver.Data.Models;
 @using Weaver.Shared.JournalComponents.Base;
 @inherits Base.Draggable<JournalGrid>;
 @using Microsoft.Extensions.Logging;
@@ -11,79 +12,25 @@
         int maxCols = Cols;
         int colWidth = MAX_WIDTH / maxCols;
     }
-    @foreach (var item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
+
+    @foreach (JournalComponent item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
     {
         foreach (var cell in FillWithEmpty(prevRow, prevCol, item.Row, item.Col, maxCols, MAX_WIDTH))
         {
             @cell
         }
-        <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
-            @switch (item)
-            {
-                case JournalGrid jGrid:
-                    {
-                        <JGrid Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />
-                        break;
-                    }
-                case CheckBox jCheckBox:
-                    {
-                        {
-                            <JCheckBox Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />
-                            break;
-                        }
-                    }
-                case RadioList jRadioList:
-                    {
-                        <JRadioList Component="@jRadioList" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />
-                        break;
-                    }
-                case Toggle jToggle:
-                    {
-                        <JToggle Component="@jToggle" ComponentChanged="v => onchange(v.MappedValue, ref jToggle)" />
-                        break;
-                    }
-                case TextField jTextField:
-                    {
-                        <JTextField Component="@jTextField" ComponentChanged="v => onchange(v.MappedValue, ref jTextField)" />
-                        break;
-                    }
-                case TextEditor jTextEditor:
-                    {
-                        <JTextEditor Component="@jTextEditor" ComponentChanged="v => onchange(v.MappedValue, ref jTextEditor)" />
-                        break;
-                    }
-                case TextArea jTextArea:
-                    {
-                        <JTextArea Component="@jTextArea" ComponentChanged="v => onchange(v.MappedValue, ref jTextArea)" />
-                        break;
-                    }
-                case DatePicker jDatePicker:
-                    {
-                        <JDatePicker Component="@jDatePicker" ComponentChanged="v => onchange(v.MappedValue, ref jDatePicker)" />
-                        break;
-                    }
-                case FileUploadView jFileUploadView:
-                    {
-                        <JFileUploadView Component="@jFileUploadView" ComponentChanged="v => onchange(v.MappedValue, ref jFileUploadView)" />
-                        break;
-                    }
-                case NumericField jNumericField:
-                    {
-                        <JNumericField Component="@jNumericField" ComponentChanged="v => onchange(v.MappedValue, ref jNumericField)" />
-                        break;
-                    }
-                case SelectField jSelectField:
-                    {
-                        <JSelectField Component="@jSelectField" ComponentChanged="v => onchange(v.MappedValue, ref jSelectField)" />
-                        break;
-                    }
-                case Slider jSlider:
-                    {
-                        <JSlider Component="@jSlider" ComponentChanged="v => onchange(v.MappedValue, ref jSlider)" />
-                        break;
-                    }
-            }
-        </DragWrap>
+        if (Building)
+        {
+            <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+                @RenderJC(item)
+            </DragWrap>
+        }
+        else
+        {
+            <div id="@IdFromRowCol(item.Row, item.Col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+                @RenderJC(item)
+            </div>
+        }
 
         prevRow = item.Row;
         prevCol = item.Col;
@@ -91,6 +38,36 @@
 </div>
 
 @code{
+    private RenderFragment RenderJC(JournalComponent item)
+    => item switch
+    {
+        JournalGrid jGrid
+    => @<JGrid Edit="Edit" Building="Building" Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
+        CheckBox jCheckBox
+    => @<JCheckBox Edit="Edit" Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />,
+        RadioList jRadioList
+    => @<JRadioList Edit="Edit" Component="@jRadioList" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
+        Toggle jToggle
+    => @<JToggle Edit="Edit" Component="@jToggle" ComponentChanged="v => onchange(v.MappedValue, ref jToggle)" />,
+        TextField jTextField
+    => @<JTextField Edit="Edit" Component="@jTextField" ComponentChanged="v => onchange(v.MappedValue, ref jTextField)" />,
+        TextEditor jTextEditor
+    => @<JTextEditor Edit="Edit" Component="@jTextEditor" ComponentChanged="v => onchange(v.MappedValue, ref jTextEditor)" />,
+        TextArea jTextArea
+    => @<JTextArea Edit="Edit" Component="@jTextArea" ComponentChanged="v => onchange(v.MappedValue, ref jTextArea)" />,
+        DatePicker jDatePicker
+    => @<JDatePicker Edit="Edit" Component="@jDatePicker" ComponentChanged="v => onchange(v.MappedValue, ref jDatePicker)" />,
+        FileUploadView jFileUploadView
+    => @<JFileUploadView Edit="Edit" Component="@jFileUploadView" ComponentChanged="v => onchange(v.MappedValue, ref jFileUploadView)" />,
+        NumericField jNumericField
+    => @<JNumericField Edit="Edit" Component="@jNumericField" ComponentChanged="v => onchange(v.MappedValue, ref jNumericField)" />,
+        SelectField jSelectField
+    => @<JSelectField Edit="Edit" Component="@jSelectField" ComponentChanged="v => onchange(v.MappedValue, ref jSelectField)" />,
+        Slider jSlider
+    => @<JSlider Edit="Edit" Component="@jSlider" ComponentChanged="v => onchange(v.MappedValue, ref jSlider)" />,
+        _ => throw new NotImplementedException($"Journal Component not supported: {JsonConvert.SerializeObject(item, Formatting.Indented)}")
+    };
+
     public static RenderFragment EmptyCell(int width, int row, int col)
-        => @<DragWrap id="@IdFromRowCol(row, col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
+        =>@<DragWrap id="@IdFromRowCol(row, col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
 }

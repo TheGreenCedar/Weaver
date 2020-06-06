@@ -1,7 +1,7 @@
 ﻿@using MatBlazor;
 @inherits Base.Draggable<Weaver.Data.Models.Toggle>;
 
-<MatSlideToggle Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
+<MatSlideToggle Disabled="!Edit" Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)

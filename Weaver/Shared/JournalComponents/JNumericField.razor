@@ -1,12 +1,14 @@
 ﻿@using MatBlazor;
 @using Data.Models;
 @inherits Base.Draggable<Weaver.Data.Models.NumericField>;
+
 <MatNumericUpDownField Value="@Component.MappedValue"
                        Label="@Component.Label"
                        DecimalPlaces="@Component.DecimalPlaces"
                        Step="@Component.Step"
                        FieldType="@FieldType"
-                       @oninput="OnValueChanged" />
+                       @oninput="OnValueChanged"
+                       ReadOnly="!Edit"/>
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)

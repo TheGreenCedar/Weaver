@@ -5,7 +5,7 @@
                Label="@Component.Label"
                EnableTime="@Component.EnableTime"
                EnableSeconds="@Component.EnableTime"
-               @onchange="OnValueChanged" />
+               @onchange="OnValueChanged" ReadOnly="!Edit" />
 
 @code {
     private Task OnValueChanged(ChangeEventArgs e)

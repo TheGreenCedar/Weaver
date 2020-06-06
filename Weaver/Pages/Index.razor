@@ -2,10 +2,8 @@
 @using  JC = Weaver.Data.Models;
 @using Newtonsoft.Json;
 @using Weaver.Shared.JournalComponents;
+@using MatBlazor; 
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
 <table style="width:100%;">
     <tr>
         <td style="width: 250px;">
@@ -14,14 +12,18 @@ Welcome to your new app.
             </div>
         </td>
         <td>
+            <MatSlideToggle Label="Edit" @bind-Value="Edit" />
+            <MatSlideToggle Label="Building" @bind-Value="Building" />
             <div class="mat-layout-grid" style="width:100%;">
-                <JGrid Component="JG" ComponentChanged="myhandle" />
+                <JGrid Edit="Edit" Building="Building" Component="JG" ComponentChanged="myhandle" />
             </div>
         </td>
     </tr>
 </table>
 
 @code {
+    public bool Edit { get; set; } = false;
+    public bool Building { get; set; } = false;
     Weaver.Data.Models.JournalGrid? JG;
     protected override void OnInitialized()
     {
@@ -62,6 +64,9 @@ Welcome to your new app.
     }
     private void myhandle(JC.JournalGrid e)
     {
-        JG.Children = e.Children;
+        if (JG is not null)
+        {
+            JG.Children = e.Children;
+        }
     }
 }

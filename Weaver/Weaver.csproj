@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>netcoreapp5.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
 		<UserSecretsId>aspnet-Weaver-B8D8E352-5395-4B79-B9DA-C926B011924B</UserSecretsId>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,6 +41,7 @@
 		<PackageReference Include="BlazorCss" Version="1.0.0" />
 		<PackageReference Include="BlazorStyled" Version="2.2.0" />
 		<PackageReference Include="MatBlazor" Version="2.6.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />

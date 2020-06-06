@@ -7,7 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 #pragma warning disable CA2227 // Collection properties should be read only
 namespace Weaver.Data.Models
 {
-    public enum CLayout {
+    public enum CLayout
+    {
         Horizontal = 0,
         Vertical
     }
@@ -25,7 +26,7 @@ namespace Weaver.Data.Models
     }
     public abstract class ValueComponent<T> : JournalComponent
     {
-        public string Value { get; set; } = String.Empty;
+        public string Value { get; set; } = string.Empty;
 
         [NotMapped, JsonIgnore]
         protected static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
@@ -47,7 +48,7 @@ namespace Weaver.Data.Models
                 Value = value switch
                 {
                     string s => s,
-                    _ => JsonConvert.SerializeObject(value, SerializerSettings) ?? String.Empty
+                    _ => JsonConvert.SerializeObject(value, SerializerSettings) ?? string.Empty
                 };
             }
         }
@@ -104,7 +105,7 @@ namespace Weaver.Data.Models
     public class SelectField : ValueComponent<string>
     {
         public bool Multi { get; set; } = false;
-        public string Options { get; set; } = String.Empty;
+        public string Options { get; set; } = string.Empty;
         [NotMapped, JsonIgnore]
         public virtual List<string> OptionsList
         {
