@@ -3,6 +3,7 @@
 @using Weaver.Shared.JournalComponents.Base;
 @inherits Base.Draggable<JournalGrid>;
 @using Microsoft.Extensions.Logging;
+@using System.Linq;
 @inject ILogger<JGrid> logger;
 
 <div class="mat-layout-grid-inner">
@@ -11,6 +12,7 @@
         int prevCol = 1;
         int maxCols = Cols;
         int colWidth = MAX_WIDTH / maxCols;
+        int idx = 0;
     }
 
     @foreach (JournalComponent item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
@@ -19,55 +21,68 @@
         {
             @cell
         }
+
+        var ren = RenderJC(item, idx);
         if (Building)
         {
-            <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
-                @RenderJC(item)
+            <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Child="childrenRefs[idx]" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+                @ren
             </DragWrap>
         }
         else
         {
             <div id="@IdFromRowCol(item.Row, item.Col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
-                @RenderJC(item)
+                @ren
             </div>
         }
-
+        ++idx;
         prevRow = item.Row;
         prevCol = item.Col;
     }
 </div>
 
 @code{
-    private RenderFragment RenderJC(JournalComponent item)
-    => item switch
+    private List<IDraggable?> childrenRefs = new List<IDraggable?>();
+
+    protected override void OnInitialized()
     {
-        JournalGrid jGrid
-    => @<JGrid Edit="Edit" Building="Building" Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
-        CheckBox jCheckBox
-    => @<JCheckBox Edit="Edit" Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />,
-        RadioList jRadioList
-    => @<JRadioList Edit="Edit" Component="@jRadioList" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
-        Toggle jToggle
-    => @<JToggle Edit="Edit" Component="@jToggle" ComponentChanged="v => onchange(v.MappedValue, ref jToggle)" />,
-        TextField jTextField
-    => @<JTextField Edit="Edit" Component="@jTextField" ComponentChanged="v => onchange(v.MappedValue, ref jTextField)" />,
-        TextEditor jTextEditor
-    => @<JTextEditor Edit="Edit" Component="@jTextEditor" ComponentChanged="v => onchange(v.MappedValue, ref jTextEditor)" />,
-        TextArea jTextArea
-    => @<JTextArea Edit="Edit" Component="@jTextArea" ComponentChanged="v => onchange(v.MappedValue, ref jTextArea)" />,
-        DatePicker jDatePicker
-    => @<JDatePicker Edit="Edit" Component="@jDatePicker" ComponentChanged="v => onchange(v.MappedValue, ref jDatePicker)" />,
-        FileUploadView jFileUploadView
-    => @<JFileUploadView Edit="Edit" Component="@jFileUploadView" ComponentChanged="v => onchange(v.MappedValue, ref jFileUploadView)" />,
-        NumericField jNumericField
-    => @<JNumericField Edit="Edit" Component="@jNumericField" ComponentChanged="v => onchange(v.MappedValue, ref jNumericField)" />,
-        SelectField jSelectField
-    => @<JSelectField Edit="Edit" Component="@jSelectField" ComponentChanged="v => onchange(v.MappedValue, ref jSelectField)" />,
-        Slider jSlider
-    => @<JSlider Edit="Edit" Component="@jSlider" ComponentChanged="v => onchange(v.MappedValue, ref jSlider)" />,
-        _ => throw new NotImplementedException($"Journal Component not supported: {JsonConvert.SerializeObject(item, Formatting.Indented)}")
-    };
+        base.OnInitialized();
+        childrenRefs.AddRange(Enumerable.Range(0, Component.Children.Count).Select(_ => (IDraggable?)null));
+    }
+
+    private RenderFragment? RenderJC(JournalComponent item, int pos)
+    {
+        RenderFragment? rf = item switch
+        {
+            JournalGrid jGrid
+                => @<JGrid @ref="childrenRefs[pos]" Edit="Edit" Building="Building" Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
+            CheckBox jCheckBox
+                => @<JCheckBox @ref="childrenRefs[pos]" Edit="Edit" Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />,
+            RadioList jRadioList
+                => @<JRadioList @ref="childrenRefs[pos]" Edit="Edit" Component="@jRadioList" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
+            Toggle jToggle
+                => @<JToggle @ref="childrenRefs[pos]" Edit="Edit" Component="@jToggle" ComponentChanged="v => onchange(v.MappedValue, ref jToggle)" />,
+            TextField jTextField
+                => @<JTextField @ref="childrenRefs[pos]" Edit="Edit" Component="@jTextField" ComponentChanged="v => onchange(v.MappedValue, ref jTextField)" />,
+            TextEditor jTextEditor
+                => @<JTextEditor @ref="childrenRefs[pos]" Edit="Edit" Component="@jTextEditor" ComponentChanged="v => onchange(v.MappedValue, ref jTextEditor)" />,
+            TextArea jTextArea
+                => @<JTextArea @ref="childrenRefs[pos]" Edit="Edit" Component="@jTextArea" ComponentChanged="v => onchange(v.MappedValue, ref jTextArea)" />,
+            DatePicker jDatePicker
+                => @<JDatePicker @ref="childrenRefs[pos]" Edit="Edit" Component="@jDatePicker" ComponentChanged="v => onchange(v.MappedValue, ref jDatePicker)" />,
+            FileUploadView jFileUploadView
+                => @<JFileUploadView @ref="childrenRefs[pos]" Edit="Edit" Component="@jFileUploadView" ComponentChanged="v => onchange(v.MappedValue, ref jFileUploadView)" />,
+            NumericField jNumericField
+                => @<JNumericField @ref="childrenRefs[pos]" Edit="Edit" Component="@jNumericField" ComponentChanged="v => onchange(v.MappedValue, ref jNumericField)" />,
+            SelectField jSelectField
+                => @<JSelectField @ref="childrenRefs[pos]" Edit="Edit" Component="@jSelectField" ComponentChanged="v => onchange(v.MappedValue, ref jSelectField)" />,
+            Slider jSlider
+                => @<JSlider @ref="childrenRefs[pos]" Edit="Edit" Component="@jSlider" ComponentChanged="v => onchange(v.MappedValue, ref jSlider)" />,
+            _ => throw new NotImplementedException($"Journal Component not supported: {JsonConvert.SerializeObject(item, Formatting.Indented)}")
+        };
+        return rf;
+    }
 
     public static RenderFragment EmptyCell(int width, int row, int col)
-        =>@<DragWrap id="@IdFromRowCol(row, col)" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
+        =>@<div id="@IdFromRowCol(row, col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
 }
