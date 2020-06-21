@@ -9,8 +9,8 @@ namespace Weaver.Data.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public JournalGrid RootComponent { get; set; }
-        public List<JournalTemplate> Journals { get; set; }
+        public List<JournalGrid> RootComponents { get; set; } = new List<JournalGrid>();
+        public List<JournalTemplate> Journals { get; set; } = new List<JournalTemplate>();
         public AppUser Owner { get; set; }
     }
 }

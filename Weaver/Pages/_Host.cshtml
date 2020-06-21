@@ -14,14 +14,18 @@
     <base href="~/" />
     <script defer type="text/javascript" src="_framework/blazor.server.js"></script>
     <script defer type="text/javascript" src="_content/MatBlazor/dist/matBlazor.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
     <environment include="Development">
         <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
         <link rel="stylesheet" href="_content/MatBlazor/dist/matBlazor.css" />
+        <link rel="stylesheet" href="_content/blazor-dragdrop/dragdrop.css" />
         <link rel="stylesheet" href="css/open-iconic/font/css/open-iconic-bootstrap.min.css" />
         <link rel="stylesheet" href="css/site.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="_content/MatBlazor/dist/matBlazor.css" />
+        <link rel="stylesheet" href="_content/blazor-dragdrop/dragdrop.css" />
         <link rel="stylesheet" href="css/site.min.css" />
     </environment>
 </head>
@@ -41,5 +45,11 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script defer>
+        MobileDragDrop.polyfill({
+            // use this to make use of the scroll behaviour
+            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+        });
+    </script>
 </body>
 </html>

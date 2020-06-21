@@ -13,22 +13,12 @@ namespace WeaverTests
         }
 
         [Test]
-        public void GetNextPoint()
+        public void RowColFromId()
         {
-            Assert.AreEqual((2, 1), JGrid.GetNextPoint(1, 5, 5));
-            Assert.AreEqual((2, 2), JGrid.GetNextPoint(2, 1, 5));
-            Assert.AreEqual((1, 2), JGrid.GetNextPoint(1, 1, 2));
-        }
-        [Test]
-        public void FillEmpty()
-        {
-            Assert.AreEqual(0, JGrid.FillWithEmpty(1, 1, 1, 2, 5, 12).Count());
-            Assert.AreEqual(2, JGrid.FillWithEmpty(1, 1, 1, 4, 5, 12).Count());
-            Assert.AreEqual(3, JGrid.FillWithEmpty(1, 1, 1, 5, 5, 12).Count());
-            Assert.AreEqual(4, JGrid.FillWithEmpty(1, 1, 2, 1, 5, 12).Count());
-            Assert.AreEqual(5, JGrid.FillWithEmpty(1, 1, 2, 2, 5, 12).Count());
-            Assert.AreEqual(13, JGrid.FillWithEmpty(1, 4, 4, 3, 5, 12).Count());
-            Assert.AreEqual(5, JGrid.FillWithEmpty(5, 1, 11, 1, 1, 12).Count());
+            Assert.AreEqual((2, 4), JGrid.RowFromId("cell2_4"));
+            Assert.AreEqual((12, 4), JGrid.RowFromId("cell12_4"));
+            Assert.AreEqual((12, 40), JGrid.RowFromId("cell12_40"));
+            Assert.AreEqual((1, 10), JGrid.RowFromId("cell1_10"));
         }
     }
 }

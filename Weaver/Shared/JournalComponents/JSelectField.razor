@@ -1,5 +1,5 @@
 ﻿@using MatBlazor;
-@inherits Base.Draggable<Weaver.Data.Models.SelectField>;
+@inherits Base.JComponent<Weaver.Data.Models.SelectField>;
 
 <MatSelect Disabled="!Edit" Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged">
     @foreach (var item in Component.OptionsList)

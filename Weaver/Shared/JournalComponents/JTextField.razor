@@ -1,5 +1,5 @@
 ﻿@using MatBlazor;
-@inherits Base.Draggable<Weaver.Data.Models.TextField>;
+@inherits Base.JComponent<Weaver.Data.Models.TextField>;
 
 <MatTextField ReadOnly="!Edit" Value="@Component.MappedValue" Label="@Component.Label" FullWidth="true" @oninput="OnValueChanged" />
 

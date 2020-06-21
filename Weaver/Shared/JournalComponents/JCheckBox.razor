@@ -1,5 +1,5 @@
 ﻿@using MatBlazor;
-@inherits Base.Draggable<Weaver.Data.Models.CheckBox>;
+@inherits Base.JComponent<Weaver.Data.Models.CheckBox>;
 
 <MatCheckbox Disabled="!Edit" Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
 

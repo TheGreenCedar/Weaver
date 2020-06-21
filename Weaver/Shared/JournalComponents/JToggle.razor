@@ -1,5 +1,5 @@
 ﻿@using MatBlazor;
-@inherits Base.Draggable<Weaver.Data.Models.Toggle>;
+@inherits Base.JComponent<Weaver.Data.Models.Toggle>;
 
 <MatSlideToggle Disabled="!Edit" Value="@Component.MappedValue" Label="@Component.Label" @onchange="OnValueChanged" />
 

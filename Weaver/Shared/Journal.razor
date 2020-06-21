@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using Weaver.Data.Models;
+
+
+<div class="mat-layout-grid" style="width:100%;">
+
+    <div class="mat-layout-grid-inner">
+        @foreach (var grid in Value.RootComponents.OrderBy(g => g.Position))
+        {
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-@colWidth">
+                <JGrid Component="grid" Edit="Edit" Building="Building" ComponentChanged="GridChanged" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private const int MAX_COLS = 12;
+
+    [Parameter] public JournalTemplate Value { get; set; } = new JournalTemplate();
+    [Parameter] public EventCallback<JournalTemplate> ValueChanged { get; set; }
+    [Parameter] public bool Edit { get; set; } = false;
+    [Parameter] public bool Building { get; set; } = true;
+
+    private Task GridChanged(JournalGrid grid)
+    {
+        Value.RootComponents[grid.Position] = grid;
+        return ValueChanged.InvokeAsync(Value);
+    }
+
+    private int _cols = 0;
+    public int Cols
+    {
+        get { if (_cols == 0) { _cols = Value.RootComponents.Count; } return _cols; }
+        set => _cols = value;
+    }
+
+    private int colWidth { get => MAX_COLS / Cols; }
+}

@@ -1,3 +1,4 @@
+using Blazor.DragDrop.Core;
 using BlazorStyled;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -40,7 +41,7 @@ namespace Weaver
             {
                 builder.AddBlobServiceClient(Configuration.GetConnectionString("weaverstore"));
             });
-
+            services.AddBlazorDragDrop();
             services.AddCors();
             services.AddApplicationInsightsTelemetry();
         }

@@ -1,72 +1,87 @@
 ﻿@page "/"
 @using  JC = Weaver.Data.Models;
 @using Newtonsoft.Json;
-@using Weaver.Shared.JournalComponents;
 @using MatBlazor; 
 
 <table style="width:100%;">
     <tr>
         <td style="width: 250px;">
             <div style="white-space: pre-wrap;width:100%">
-                @JsonConvert.SerializeObject(JG, Formatting.Indented);
+                @JsonConvert.SerializeObject(JT, Formatting.Indented);
             </div>
         </td>
         <td>
             <MatSlideToggle Label="Edit" @bind-Value="Edit" />
             <MatSlideToggle Label="Building" @bind-Value="Building" />
-            <div class="mat-layout-grid" style="width:100%;">
-                <JGrid Edit="Edit" Building="Building" Component="JG" ComponentChanged="myhandle" />
-            </div>
+            <Journal Building="Building" Edit="Edit" @bind-Value="JT" />
         </td>
     </tr>
 </table>
 
 @code {
     public bool Edit { get; set; } = false;
-    public bool Building { get; set; } = false;
-    Weaver.Data.Models.JournalGrid? JG;
+    public bool Building { get; set; } = true;
+    JC.JournalTemplate JT = new JC.JournalTemplate();
     protected override void OnInitialized()
     {
         base.OnInitialized();
         var root = new JC.JournalGrid
         {
             Label = "Root",
-            Row = 1,
-            Col = 1,
+            Position = 0,
         };
         root.Children.Add(new JC.TextField
         {
             Label = "Title:",
-            Row = 1,
-            Col = 1,
+            Position = 0,
             Parent = root
         });
         root.Children.Add(new JC.TextArea
         {
             Label = "Content:",
-            Row = 2,
-            Col = 1,
+            Position = 1,
             Height = 270,
             Parent = root
         });
         var list = new JC.RadioList
         {
             Label = "Rad:",
-            Row = 3,
-            Col = 1,
+            Position = 2,
             Parent = root,
             MappedValue = "b3"
         };
         list.Buttons.AddRange(new string[] { "b1", "b2", "b3", "b4" });
         root.Children.Add(list);
 
-        JG = root;
-    }
-    private void myhandle(JC.JournalGrid e)
-    {
-        if (JG is not null)
+        JT.RootComponents.Add(root);
+
+        var root2 = new JC.JournalGrid
         {
-            JG.Children = e.Children;
-        }
+            Label = "Root 2",
+            Position = 1,
+        };
+        root2.Children.Add(new JC.TextField
+        {
+            Label = "Title:",
+            Position = 0,
+            Parent = root2
+        });
+        root2.Children.Add(new JC.TextArea
+        {
+            Label = "Content:",
+            Position = 1,
+            Height = 270,
+            Parent = root2
+        });
+        var list2 = new JC.RadioList
+        {
+            Label = "Rad:",
+            Position = 2,
+            Parent = root2,
+            MappedValue = "b3"
+        };
+        list2.Buttons.AddRange(new string[] { "b1", "b2", "b3", "b4" });
+        root2.Children.Add(list2);
+        JT.RootComponents.Add(root2);
     }
 }

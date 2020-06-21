@@ -35,22 +35,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Storage.Blobs" Version="12.4.2" />
-		<PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.1" />
-		<PackageReference Include="Azure.Storage.Queues" Version="12.3.0" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.4.4" />
+		<PackageReference Include="Azure.Storage.Files.Shares" Version="12.2.3" />
+		<PackageReference Include="Azure.Storage.Queues" Version="12.3.2" />
+		<PackageReference Include="blazor-dragdrop" Version="1.1.9" />
 		<PackageReference Include="BlazorCss" Version="1.0.0" />
-		<PackageReference Include="BlazorStyled" Version="2.2.0" />
+		<PackageReference Include="BlazorStyled" Version="3.0.0" />
 		<PackageReference Include="MatBlazor" Version="2.6.0" />
 		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

@@ -1,6 +1,5 @@
+using Blazor.DragDrop.Core;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Weaver.Data.Models;
 
@@ -8,44 +7,40 @@ namespace Weaver.Shared.JournalComponents
 {
     public partial class JGrid
     {
-        const int MAX_WIDTH = 12;
         [Parameter] public bool Building { get; set; } = false;
-        public int Rows { get => Component.Children.Max(c => c.Row); }
-        public int Cols { get => Component.Children.Max(c => c.Col); }
-
-        public static (int row, int col) GetNextPoint(int row, int col, int maxCols)
+        [Inject] private DragDropService _dds { get; set; }
+        private int _rows = 0;
+        public int Rows
         {
-            int nextRow = row;
-            int nextCol = col + 1;
-            if (nextCol > maxCols)
-            {
-                nextCol = 1;
-                ++nextRow;
-            }
-            return (nextRow, nextCol);
+            get { if (_rows == 0) { _rows = Component.Children.Count; } return _rows; }
+            set => _rows = value;
         }
 
-        public static IEnumerable<RenderFragment> FillWithEmpty(int rowStart, int colStart, int rowEnd, int colEnd, int maxCols, int maxWidth)
+        private string IdFromRow(int row) => $"{row}_{DropzoneName}";
+        private string DropzoneName { get => $"JGridDropzone_{Component.Position}"; }
+        public static int RowFromId(string id)
         {
-            int colWidth = maxWidth / maxCols;
-            int rowNum = rowEnd - rowStart - 1;
-            int cellNum = rowNum * maxCols + (maxCols - colStart) + colEnd - 1;
-            (int curRow, int curCol) = GetNextPoint(rowStart, colStart, maxCols);
-
-            for (int i = 0; i < cellNum; ++i)
-            {
-                yield return EmptyCell(colWidth, curRow, curCol);
-                (curRow, curCol) = GetNextPoint(curRow, curCol, maxCols);
-            }
+            if (id is null) throw new System.Exception("id is null");
+            int row = int.Parse(id[..id.IndexOf('_', 0)]);
+            return row;
         }
-
-        private static string IdFromRowCol(int row, int col) => $"cell{row}_{col}";
 
         private Task onchange<U, T>(U val, ref T item)
             where T : ValueComponent<U>
         {
             item.MappedValue = val;
             return ComponentChanged.InvokeAsync(Component);
+        }
+
+        private async void OnDrop(DraggableItem item)
+        {
+            if (item.OriginDropzoneId != item.DropzoneId) throw new System.Exception("Item dropped into wrong dropzone");
+            var draggables = _dds.GetDraggablesForDropzone(DropzoneName);
+            foreach (var draggable in draggables)
+            {
+                int idx = RowFromId(draggable.Name);
+                await childrenRefs[idx].SetPosition(draggable?.OrderPosition ?? -1);
+            }
         }
     }
 }

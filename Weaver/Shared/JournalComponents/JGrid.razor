@@ -1,61 +1,48 @@
 @using Newtonsoft.Json;
 @using Weaver.Data.Models;
 @using Weaver.Shared.JournalComponents.Base;
-@inherits Base.Draggable<JournalGrid>;
-@using Microsoft.Extensions.Logging;
+@using Blazor.DragDrop.Core;
+@inherits Base.JComponent<JournalGrid>;
 @using System.Linq;
-@inject ILogger<JGrid> logger;
 
-<div class="mat-layout-grid-inner">
+<Dropzone Name="@DropzoneName" AllowSwap="true" Accepts="d => d.Parent == DropzoneName">
     @{
-        int prevRow = 1;
-        int prevCol = 1;
-        int maxCols = Cols;
-        int colWidth = MAX_WIDTH / maxCols;
         int idx = 0;
     }
 
-    @foreach (JournalComponent item in Component.Children.OrderBy(x => x.Row).ThenBy(x => x.Col))
+    @foreach (JournalComponent item in Component.Children.OrderBy(x => x.Position))
     {
-        foreach (var cell in FillWithEmpty(prevRow, prevCol, item.Row, item.Col, maxCols, MAX_WIDTH))
-        {
-            @cell
-        }
-
         var ren = RenderJC(item, idx);
-        if (Building)
+        @if (Building)
         {
-            <DragWrap id="@IdFromRowCol(item.Row, item.Col)" Child="childrenRefs[idx]" Class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+            <Draggable Name="@IdFromRow(idx)" Tag="new { Parent = DropzoneName }"
+                       OnDrop="OnDrop">
                 @ren
-            </DragWrap>
+            </Draggable>
         }
         else
         {
-            <div id="@IdFromRowCol(item.Row, item.Col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{colWidth}")">
+            <div id="@IdFromRow(idx)">
                 @ren
             </div>
         }
         ++idx;
-        prevRow = item.Row;
-        prevCol = item.Col;
     }
-</div>
+</Dropzone>
 
 @code{
-    private List<IDraggable?> childrenRefs = new List<IDraggable?>();
+    private List<IJComponent?> childrenRefs = new List<IJComponent?>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        childrenRefs.AddRange(Enumerable.Range(0, Component.Children.Count).Select(_ => (IDraggable?)null));
+        childrenRefs.AddRange(Enumerable.Range(0, Component.Children.Count).Select(_ => (IJComponent?)null));
     }
 
     private RenderFragment? RenderJC(JournalComponent item, int pos)
     {
         RenderFragment? rf = item switch
         {
-            JournalGrid jGrid
-                => @<JGrid @ref="childrenRefs[pos]" Edit="Edit" Building="Building" Component="@jGrid" ComponentChanged="v => ComponentChanged.InvokeAsync(Component)" />,
             CheckBox jCheckBox
                 => @<JCheckBox @ref="childrenRefs[pos]" Edit="Edit" Component="@jCheckBox" ComponentChanged="v => onchange(v.MappedValue, ref jCheckBox)" />,
             RadioList jRadioList
@@ -82,7 +69,4 @@
         };
         return rf;
     }
-
-    public static RenderFragment EmptyCell(int width, int row, int col)
-        =>@<div id="@IdFromRowCol(row, col)" class="@($"mat-layout-grid-cell mat-layout-grid-cell-span-{width}")" />;
 }
